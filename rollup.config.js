@@ -6,7 +6,7 @@ export default [
   {
     input: 'index.js',
     output: {
-      name: 'slapdash',
+      name: 'oddstruct ',
       file: pkg.browser,
       format: 'umd'
     },
