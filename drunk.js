@@ -24,6 +24,21 @@ export const get_walk = ({
 
 export const drunk_walker = (min, max, min_step, max_step, seed) => {
   const rng = seed ? seedrandom(seed) : seedrandom();
+export const mutate_walk = (rng, walk, walker, mutate_chance) => {
+  const new_walk = [walk[0]];
+  for (let i = 1; i < walk.length; i++) {
+    new_walk.push(flip(rng, mutate_chance) ? walker(new_walk[i - 1]) : walk[i]);
+  }
+  return new_walk;
+};
+
+export const snap_to_highlights = (rng, walk, highlights, snap_chance, max_snap_dist) =>
+  walk.map(pnt => (flip(rng, snap_chance) ? snap_point(pnt, highlights, max_snap_dist) : pnt));
+
+const snap_point = (point, highlights, max_snap_dist) => {
+  const closest = highlights.sort((a, b) => Math.abs(point - a) - Math.abs(point - b))[0];
+  return Math.abs(point - closest) <= max_snap_dist ? closest : point;
+};
 
   return n => {
     if (n < min || n > max) return n;
